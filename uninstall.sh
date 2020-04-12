@@ -1,3 +1,11 @@
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ]; then
+  ui_print " "
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+  rm -rf /data/resource-cache
+fi
+
 # Don't modify anything after this
 if [ -f $INFO ]; then
   while read LINE; do
