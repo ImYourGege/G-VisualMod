@@ -4,7 +4,7 @@ sp() {
 	ui_print " "
 }
 
-# Functions to check if dirs is mounted
+# Functions to check if dirs is mounted (Thanks to @Skittles9823)
 is_mounted() {
 	grep " `readlink -f $1` " /proc/mounts 2>/dev/null
 	return $?
@@ -78,13 +78,19 @@ setvars(){
 
 #Check whether the unsupported MIUI and OOS
 MIUI=$(grep_prop "ro.miui.ui.version.*")
+MIUI12=$(grep_prop "ro.miui.ui.version.name")
 OOS=$(grep_prop "*Oxygen*")
-if [ $MIUI ]; then
+
+if [ $MIUI12 = "V12" ]; then
+	sp
+	ui_print "  MIUI 12 Detected!"
+	ui_print "  Currently not tested"
+elif [ $MIUI ] && [ -z $MIUI12 ]; then
 	sp
 	ui_print "  MIUI Detected!"
-	ui_print "  Currently not supported!"
+	ui_print "  Only supported on MIUI 12!"
 	sp
-	abort "  See ya on MIUI 12!"
+	abort "  Sorry!"
 fi
 
 # Path-to-install locator
@@ -96,16 +102,29 @@ done
 # Zipname scanner
 OIFS=$IFS; IFS=\|
 case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
+	*t1*) T1=true;;
 	*t2*) T2=true;;
 	*t3*) T3=true;;
+	*w72*) W72=true;;
 	*w110*) W110=true;;
 	*w160*) W160=true;;
 	*imr*) IMR=true;;
+	*t1w72*) T1=true; W72=true;;
+	*t1w72im*) T1=true; W72=true; IMR=true;;
+	*t1w110*) T1=true; W110=true;;
+	*t1w110im*) T1=true; W110=true; IMR=true;;
+	*t1w160*) T1=true; W160=true;;
+	*t1w160im*) T1=true; W160=true; IMR=true;;
+	*t1im*) T1=true; IMR=true;;
+	*t2w72*) T2=true; W72=true;;
+	*t2w72im*) T2=true; W72=true; IMR=true;;
 	*t2w110*) T2=true; W110=true;;
 	*t2w110im*) T2=true; W110=true; IMR=true;;
 	*t2w160*) T2=true; W160=true;;
 	*t2w160im*) T2=true; W160=true; IMR=true;;
 	*t2im*) T2=true; IMR=true;;
+	*t3w72*) T3=true; W72=true;;
+	*t3w72im*) T3=true; W72=true; IMR=true;;
 	*t3w110*) T3=true; W110=true;;
 	*t3w110im*) T3=true; W110=true; IMR=true;;
 	*t3w160*) T3=true; W160=true;;
@@ -122,32 +141,32 @@ if [ -z $T2 ] || [ -z $T3 ] || [ -z $W110 ] || [ -z $W160 ] || [ -z $IMR ] || [ 
 		ui_print "  Options not specified in zipname!"
 		abort "  Either use vol. button or zipname method!"
 	else
-		OPT=1
 		sp
-		ui_print "  Customize Manually or pick a template"
-		ui_print "  Vol+ = Ok, Vol- = Select"
+		ui_print "  Customize manually or pick a template"
+		ui_print "  Vol [+] = Next, Vol [-] = Select"
 		ui_print "  "
 		ui_print "  1. Manual Mode"
 		ui_print "  2. IOS Pill"
 		ui_print "  3. OOS Pill"
-		ui_print "  4. Immersive Mode"
-		ui_print "  5. Invisible Mode"
+		ui_print "  4. AOSP Pill"
+		ui_print "  5. Immersive Mode"
+		ui_print "  6. Invisible Mode"
 		ui_print "  Invisible Mode only available on this dialog!"
 		ui_print "  "
 		ui_print "  Select:"
+		OPT=1
 		while true; do
 			ui_print "  $OPT"
 			sp
 			if $VKSEL; then
-				break
-			else 
 			OPT=$((OPT + 1))
+			else 
+				break
 			fi
 			
-			if [ $OPT -gt 5 ]; then
+			if [ $OPT -gt 6 ]; then
 				OPT=1
 			fi
-			
 		done
 		
 		if [ $OPT = 2 ]; then
@@ -159,40 +178,65 @@ if [ -z $T2 ] || [ -z $T3 ] || [ -z $W110 ] || [ -z $W160 ] || [ -z $IMR ] || [ 
 				ui_print "  Oxygen OS Detected!"
 				ui_print "  Bottom padding will stay default!"
 			fi
-			
 		elif [ $OPT = 3 ]; then
 			ui_print "-  OOS Pill Selected  -"
 			T2=true
 			W110=true
 		elif [ $OPT = 4 ]; then
+			ui_print "-  AOSP Pill Selected  -"
+			T1=true
+			W72=true
+		elif [ $OPT = 5 ]; then
 			ui_print "-  Immersive Mode Selected  -"
 			IMR=true
-		elif [ $OPT = 5 ]; then
+		elif [ $OPT = 6 ]; then
 			ui_print "-  Invisible Mode Selected  -"
 			INV=true
 		fi
 		
 		if [ $OPT = 1 ]; then
 			ui_print "-  Manual Mode Selected  -"
-			if [ -z $T2 ] || [ -z $T3 ]; then
+			if [ -z $T1 ] || [ -z $T2 ] || [ -z $T3 ]; then
 				sp
 				ui_print "  Change the pill's thickness?"
 				ui_print "  Vol+ = Yes, Vol- = No"
 				sp
 				if $VKSEL; then
 					ui_print "  How thick?"
-					ui_print "  Vol+ = 2dp(OOS), Vol- = 3dp(IOS)"
+					ui_print "  Vol [+] = Next, Vol [-] = Select"
+					ui_print "  "
+					ui_print "  1. 1dp (AOSP)"
+					ui_print "  2. 2dp (OOS & MIUI 12)"
+					ui_print "  3. 3dp (IOS)"
+					ui_print "  "
+					ui_print "  Select:"
 					sp
-					if $VKSEL; then
-						ui_print "-  2dp(OOS) Selected  -"
+					OPTM=1
+					while true; do
+						ui_print "  $OPTM"
+						sp
+						if $VKSEL; then
+						OPTM=$((OPTM + 1))
+						else 
+							break
+						fi
+						
+						if [ $OPTM -gt 3 ]; then
+							OPTM=1
+						fi
+					done
+					
+					if [ $OPTM = 1 ]; then
+						ui_print "-  1dp (AOSP) Selected  -"
+						T1=true
+					elif [ $OPTM = 2 ]; then
+						ui_print "-  2dp (OOS & MIUI 12) Selected  -"
 						T2=true
-					else
-						ui_print "-  3dp(IOS) Selected  -"
+					elif [ $OPTM = 3 ]; then
+						ui_print "-  3dp (IOS) Selected  -"
 						T3=true
 					fi
-					
 				fi
-				
 			else
 				ui_print "  Pill's Thickness options specified in zipname!"
 			fi
@@ -204,18 +248,40 @@ if [ -z $T2 ] || [ -z $T3 ] || [ -z $W110 ] || [ -z $W160 ] || [ -z $IMR ] || [ 
 				sp
 				if $VKSEL; then
 					ui_print "  How wide?"
-					ui_print "  Vol+ = 110dp, Vol- = 160dp(IOS)"
+					ui_print "  Vol [+] = Next, Vol [-] = Select"
+					ui_print "  "
+					ui_print "  1. 72dp (AOSP)"
+					ui_print "  2. 110dp (OOS)"
+					ui_print "  3. 160dp (IOS & MIUI 12)"
+					ui_print "  "
+					ui_print "  Select:"
 					sp
-					if $VKSEL; then
-						ui_print "-  110dp Selected  -"
+					OPTM=1
+					while true; do
+						ui_print "  $OPTM"
+						sp
+						if $VKSEL; then
+						OPTM=$((OPTM + 1))
+						else 
+							break
+						fi
+						
+						if [ $OPTM -gt 3 ]; then
+							OPTM=1
+						fi
+					done
+					
+					if [ $OPTM = 1 ]; then
+						ui_print "-  72dp (AOSP) Selected  -"
+						W72=true
+					elif [ $OPTM = 2 ]; then
+						ui_print "-  110dp (OOS) Selected  -"
 						W110=true
-					else
-						ui_print "-  160dp(IOS) Selected  -"
+					elif [ $OPTM = 3 ]; then
+						ui_print "-  160dp (IOS & MIUI 12) Selected  -"
 						W160=true
 					fi
-					
 				fi
-				
 			else
 				ui_print "  Pill's Width options specified in zipname!"
 			fi
@@ -231,6 +297,8 @@ if [ -z $T2 ] || [ -z $T3 ] || [ -z $W110 ] || [ -z $W160 ] || [ -z $IMR ] || [ 
 			if $VKSEL; then
 				ui_print "-  Immersive Mode Selected  -"
 				IMR=true
+			else
+				ui_print "-  Immersive Mode Skipped  -"
 			fi
 		fi
 	fi
@@ -243,24 +311,37 @@ sp
 ui_print "  Installing..."
 MODDIR=$MODPATH/mods
 
-if [ $T2 ]; then
-	cp_ch -r $MODDIR/G-PGM-T3.apk $STEPDIR/G-PGM-T
+if [ $T1 ]; then
+	cp_ch -r $MODDIR/G-PGM-T1.apk $STEPDIR/G-PGM-T
 fi
+
+if [ $T2 ]; then
+	cp_ch -r $MODDIR/G-PGM-T2.apk $STEPDIR/G-PGM-T
+fi
+
 if [ $T3 ]; then
 	cp_ch -r $MODDIR/G-PGM-T3.apk $STEPDIR/G-PGM-T
 	cp -r -f $MODDIR/FTL/Nav* $STEPDIR
 fi
+
+if [ $W72 ]; then
+	cp_ch -r $MODDIR/G-PGM-W72.apk $STEPDIR/G-PGM-W
+fi
+
 if [ $W110 ]; then
 	cp_ch -r $MODDIR/G-PGM-W110.apk $STEPDIR/G-PGM-W
 fi
+
 if [ $W160 ]; then
 	cp_ch -r $MODDIR/G-PGM-W160.apk $STEPDIR/G-PGM-W
 fi
+
 if [ $IMR ]; then
 	cp -r -f $MODDIR/FHD/Nav* $STEPDIR
 fi
+
 if [ $INV ]; then
-	cp_ch -r $MODDIR/G-PGM-INV.apk $STEPDIR/G-PGM-INV
+	cp_ch -r $MODDIR/G-PGM-IN.apk $STEPDIR/G-PGM-IN
 	cp -r -f $MODDIR/FHD/Nav* $STEPDIR
 fi
 
@@ -271,10 +352,10 @@ fi
 
 # Checking if mod(s) are copied
 if [ -z "$(ls -A $STEPDIR/G-PGM*)" ] || [ -z "$(ls -A $STEPDIR/Nav*)" ] ; then
+	:
+else
 	echo "The overlays was not copied, please send logs to the developer."
 	exit 1
-else
-	:
 fi
 
 unmount_rw_stepdir
