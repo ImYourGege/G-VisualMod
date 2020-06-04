@@ -3,7 +3,10 @@
 <div align="center">
   <img src="https://img.shields.io/badge/Version-v1.0-green.svg?longCache=true&style=popout-round"
   alt="Version" />
-  <strong>Customize your Android's Pill Gesture!</strong>
+</div>
+
+<div align="center">
+ <strong>Customize your Android's Pill Gesture!</strong>
 </div>
 
 ## Templates Preview
@@ -16,7 +19,7 @@
 
 	![](https://imgur.com/dqRbxwg.jpg)
 
-- Default + 160dp wide
+- AOSP (1dp) + 160dp wide
 
 	![](https://imgur.com/t0aQ6lp.jpg)
 
@@ -31,8 +34,8 @@
 
 ## Compatibility
 - Magisk 20+
-- Android 10 (Q)
-- AOSP Based rom. (OOS should works)
+- Android 10+ (Q)
+- AOSP Based rom. (OOS & MIUI 12 should works)
 
 ## How To Install
 - Execute the zip using Magisk,
@@ -43,24 +46,22 @@
 ## How To Install (Alternatives)
 Rename the module zip depends on what you need.
 
-ONLY USE PROVIDED OPTIONS! ELSE WON"T BE RECOGNIZED!
-	<code>[thick][width][mode].zip</code>
-	thick
-	- 1dp (Default)	: <code>Don't input</code>
-	- 2dp (OOS)		: <code>t2</code>
-	- 3dp (IOS)		: <code>t3</code>
-	width
-	- 76dp (Default): <code>Don't input</code>
-	- 110dp			: <code>w110</code>
-	- 160dp (IOS)	: <code>w160</code>
-	mode
-	- im (Immersive): <code>im</code>
-	- iv (Invisible): <code>iv</code> (can't be combined with other option!)
+```
+Usage:	[thick][width][mode].zip
+	thick,
+	- 1dp (AOSP)    	: *blank*
+	- 2dp (OOS & MIUI 12)	: t2
+	- 3dp (IOS)		: t3
+	width,
+	- 76dp (AOSP)   	: *blank*
+	- 110dp	(OOS)		: w110
+	- 160dp (IOS & MIUI 12)	: w160
+	mode,
+	- im (Immersive): im
+	- iv (Invisible): iv (DO NOT combine with any other options!)
+```
 	
-	Example: t2w160im.zip, that means modify the pill to 2dp thick, 160dp width with immersive mode.
-	
-## How To Uninstall
-- Reinstall the module.
+Example: t2w160im.zip, that means modify the pill to 2dp thick, 160dp width with immersive mode.
 
 ## Changelog
 - v1.0
