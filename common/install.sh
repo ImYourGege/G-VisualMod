@@ -82,9 +82,7 @@ MIUI12=$(grep_prop "ro.miui.ui.version.name")
 OOS=$(grep_prop "*Oxygen*")
 
 if [ $MIUI12 = "V12" ]; then
-	sp
-	ui_print "  MIUI 12 Detected!"
-	ui_print "  Currently not tested"
+	:
 elif [ $MIUI ] && [ -z $MIUI12 ]; then
 	sp
 	ui_print "  MIUI Detected!"
@@ -352,10 +350,10 @@ fi
 
 # Checking if mod(s) are copied
 if [ -z "$(ls -A $STEPDIR/G-PGM*)" ] || [ -z "$(ls -A $STEPDIR/Nav*)" ] ; then
-	:
-else
 	echo "The overlays was not copied, please send logs to the developer."
 	exit 1
+else
+	:
 fi
 
 unmount_rw_stepdir
