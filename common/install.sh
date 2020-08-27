@@ -85,10 +85,9 @@ if [ $MIUI12 = "V12" ]; then
 	:
 elif [ $MIUI ] && [ -z $MIUI12 ]; then
 	sp
-	ui_print "  MIUI Detected!"
-	ui_print "  Only supported on MIUI 12!"
-	sp
-	abort "  Sorry!"
+	ui_print "  Older MIUI Detected!"
+	ui_print "  Only supported on MIUI 12 and up!"
+	abort
 fi
 
 # Path-to-install locator
@@ -341,6 +340,11 @@ fi
 if [ $INV ]; then
 	cp_ch -r $MODDIR/G-PGM-IN.apk $STEPDIR/G-PGM-IN
 	cp -r -f $MODDIR/FHD/Nav* $STEPDIR
+fi
+
+# Additional file for MIUI
+if [ $MIUI12 ]; then
+	cp -r -f $MODDIR/Misc/framework-res $MODPATH/system/media/theme/default
 fi
 
 # Can't fix bottom padding on OOS yet
