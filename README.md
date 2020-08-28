@@ -9,9 +9,10 @@
  <strong>Customize your Android's Pill Gesture!</strong>
 </div>
 
-## Templates Preview
+## Preview
 
-	![](https://imgur.com/Pa0xWf2.jpg)
+![](https://imgur.com/Pa0xWf2.jpg)
+
 
 ## Compatibility
 - Magisk 20+
