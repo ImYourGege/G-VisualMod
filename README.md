@@ -11,26 +11,7 @@
 
 ## Templates Preview
 
-- IOS (3dp) + 160dp wide
-
-	![](https://imgur.com/AcOSDJg.jpg)
-
-- OOS (2dp) + 160dp wide
-
-	![](https://imgur.com/dqRbxwg.jpg)
-
-- AOSP (1dp) + 160dp wide
-
-	![](https://imgur.com/t0aQ6lp.jpg)
-
-- Immersive Mode
-
-	![](https://imgur.com/1I7QvkS.jpg)
-
-- Invisible Mode
-
-	![](https://imgur.com/PvguS4I.jpg)
-
+	![](https://imgur.com/Pa0xWf2.jpg)
 
 ## Compatibility
 - Magisk 20+
@@ -49,16 +30,17 @@ Rename the module zip depends on what you need.
 ```
 Usage:	[thick][width][mode].zip
 	thick:
-	- 1dp (AOSP)    	: *blank*
+	- 1dp (AOSP)    		: *blank*
 	- 2dp (OOS & MIUI 12)	: t2
-	- 3dp (IOS)		: t3
+	- 3dp (IOS)				: t3
 	width:
-	- 76dp (AOSP)   	: *blank*
-	- 110dp	(OOS)		: w110
+	- 72dp (AOSP)   		: *blank*
+	- 110dp	(OOS)			: w110
 	- 160dp (IOS & MIUI 12)	: w160
 	mode:
-	- im (Immersive): im
-	- iv (Invisible): iv (DO NOT combine with any other options!)
+	- normal				: *blank*
+	- im (Immersive)		: im
+	- iv (Invisible)		: iv (DO NOT combine with any other options!)
 ```
 	
 Example: t2w160im.zip, that means modify the pill to 2dp thick, 160dp width with immersive mode.

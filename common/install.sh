@@ -319,6 +319,14 @@ fi
 if [ $T3 ]; then
 	cp_ch -r $MODDIR/G-PGM-T3.apk $STEPDIR/G-PGM-T
 	cp -r -f $MODDIR/FTL/Nav* $STEPDIR
+	# Can't fix bottom padding on OOS yet
+	if [ $OOS ]; then
+		rm -r $STEPDIR/Nav*
+	fi
+	# Additional file for MIUI
+	if [ $MIUI12 ]; then
+		cp -r -f $MODDIR/Misc/framework-res $MODPATH/system/media/theme/default
+	fi
 fi
 
 if [ $W72 ]; then
@@ -342,22 +350,12 @@ if [ $INV ]; then
 	cp -r -f $MODDIR/FHD/Nav* $STEPDIR
 fi
 
-# Additional file for MIUI
-if [ $MIUI12 ]; then
-	cp -r -f $MODDIR/Misc/framework-res $MODPATH/system/media/theme/default
-fi
-
-# Can't fix bottom padding on OOS yet
-if [ $OOS ]; then
-	rm -r $STEPDIR/Nav*
-fi
-
 # Checking if mod(s) are copied
-if [ -z "$(ls -A $STEPDIR/G-PGM*)" ] || [ -z "$(ls -A $STEPDIR/Nav*)" ] ; then
+if [ "$(ls -A $STEPDIR/G-PGM*)" ] || [ "$(ls -A $STEPDIR/Nav*)" ] ; then
+	:
+else
 	echo "The overlays was not copied, please send logs to the developer."
 	exit 1
-else
-	:
 fi
 
 unmount_rw_stepdir
