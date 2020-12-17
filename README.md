@@ -11,27 +11,33 @@
 
 ## Templates Preview
 
-	![](https://imgur.com/Pa0xWf2.jpg)
+	<a href="https://imgur.com/CM8HPGH"><img src="https://i.imgur.com/CM8HPGH.jpg" /></a>
 
 ## Compatibility
 - Magisk 20+;
 - Android Pie 9+;
 - Android Q 10+ (PillGesture);
 - AOSP Based rom, OxygenOS, MIUI 12 and higher;
+
+## Known Bugs
 - Immersive mode and Pill Transparency wont work on OxygenOS!
-- UI Radius Mod wont work on OxygenOS!
+- UI Radius Mod wont work on MIUI 12!
+- Not all rom support UI radius iconshape option!
 
 ## What this module do
 ### UI Radius Mod
 - Change UI Roundyness.
+
 ### Pill Gesture Mods
 - Change pill thickness and/or width;
 - Change pill color (DualTone & DualColor available);
 - Change pill transparency (with Immersive mode enabled);
 - Enable Immersive or Fullscreen mode.
+
 ### Statusbar Mod
 - Change statusbar height;
 - Fix MIUI bottom margin.
+
 ### NotchKiller
 - Enable NotchKiller (Fullscreen apps).
 
@@ -42,7 +48,7 @@
 
 ## How To Install (Alternatives)
 Rename the module zip depends on what you need;
-Sorry but you can only choose one mod (for now).
+You can combine multiple options per-mod.
 
 Change UI radius
 ```
@@ -65,7 +71,6 @@ Usage:	[template],[mode].zip
 	- IOS					: ios
 	
 	mode:
-	- Normal				: nrml
 	- Immersive				: imrs
 	- Fullscreen			: full (DO NOT combine with any other options!)
 ```
@@ -97,7 +102,6 @@ Usage:	[color],[dualtone].zip
 	- OnePlus Red			: oprd
 	dualtone (Pill Gesture will slighty changes color between light and dark theme):
 	- Yes					: dt
-	- No					: *leave empty*
 ```
 Example: tgrn,dt.zip, that means modify pill color to tangerine with dual tone enabled.
 
@@ -127,7 +131,7 @@ Usage:	[height].zip
 	- Large				: hlarge
 	- XLarge			: hxlarge
 ```
-Example: rlarge.zip, that means modify UI radius to large.
+Example: hlarge.zip, that means modify statusbar height to large.
 
 
 Activate notchkiller
@@ -153,8 +157,7 @@ Example: nck.zip, that means activate notchkiller.
   - Updated: Volume Key Selector (MMT-Ex Addon);
   - Android 11+ support;
   - Completely rewrite script;
-  - Code cleanooops;
-  - Added: aapt to build overlays;
+  - Added: AAPT to build overlays;
   - Added: color options;
   - Added: DualTone mode;
   - Added: DualColor mode;
@@ -163,9 +166,12 @@ Example: nck.zip, that means activate notchkiller.
   - Added: 180dp and 200dp width options;
   - Added: MIUI template;
   - Added: pill width landscape option;
-  - Added: radius iconshape option;
+  - Added: radius iconshape option (NOT ALL ROM SUPPORTED);
   - Added: main menu for ez manage mods;
   - Allow: mods checking to preview selected mods;
+  - Allow: remove selected mods before install;
+  - Fixed: Immersive on MIUI and AOSP
+  - Fixed: Lag and heating issue (Possibly)
   - Fixed bugs: a lot.
 
 ### v2.1.1
