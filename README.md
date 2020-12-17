@@ -11,7 +11,7 @@
 
 ## Templates Preview
 
-	<a href="https://imgur.com/CM8HPGH"><img src="https://i.imgur.com/CM8HPGH.jpg" /></a>
+	![](https://i.imgur.com/pZPi8qc.jpg)
 
 ## Compatibility
 - Magisk 20+;
